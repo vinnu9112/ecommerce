@@ -11,8 +11,8 @@ export const registerController = async(req, res) => {
         if(!email){
             return res.send({message: "email is required"})
         }
-        if(!password){
-            return res.send({message: "password is required"})
+        if(!password || password.length < 8){
+            return res.send({message: "password is required and minimum 8 characters"})
         }
         if(!phone){
             return res.send({message: "phone is required"})
@@ -212,6 +212,21 @@ export const orderStatusController = async(req, res)=>{
             res.status(500).send({
                 success: false, 
                 message: 'Error getting orders',
+                error
+            })        
+    }
+}
+
+
+export const getAllUsersController = async(req, res)=>{
+    try {
+        const users = await userModel.find({})
+        res.json(users); 
+    } catch (error) {
+        console.log(error)
+            res.status(500).send({
+                success: false, 
+                message: 'Error getting users',
                 error
             })        
     }
